@@ -1,54 +1,47 @@
-import {
-  Container,
-  Filters,
-  Title,
-  TopBar,
-  ProductsGroupList,
-  Stories,
-} from '@/shared/components/shared';
-import { Suspense } from 'react';
-import { GetSearchParams, findPizzas } from '@/shared/lib/find-pizzas';
 
-export default async function Home({ searchParams }: { searchParams: GetSearchParams }) {
-  const categories = await findPizzas(searchParams);
+import { prisma } from '@/prisma/prisma-client'
+import { TopBar,Container ,Title, Filters, ProductGroupList } from '@/shared/components/shared/index'
+import { findPizzas, GetSearchParams } from '@/shared/lib/find-pizzas'
 
-  return (
-    <>
-      <Container className="mt-10">
-        <Title text="Все пиццы" size="lg" className="font-extrabold" />
-      </Container>
+import React, { Suspense } from 'react'
 
-      <TopBar categories={categories.filter((category) => category.products.length > 0)} />
+export default async function Home({searchParams}: {searchParams: GetSearchParams}) {
 
-      <Stories />
+  const categories = await findPizzas(searchParams)
 
-      <Container className="mt-10 pb-14">
-        <div className="flex gap-[80px]">
-          {/* Фильтрация */}
-          <div className="w-[250px]">
-            <Suspense>
-              <Filters />
-            </Suspense>
-          </div>
-
-          {/* Список товаров */}
-          <div className="flex-1">
-            <div className="flex flex-col gap-16">
-              {categories.map(
-                (category) =>
-                  category.products.length > 0 && (
-                    <ProductsGroupList
-                      key={category.id}
-                      title={category.name}
-                      categoryId={category.id}
-                      items={category.products}
-                    />
-                  ),
-              )}
+    return (
+        <>
+          <Container className='mt-10'>
+            <Title text='All Pizzas' size='lg' className='font-extrabold'/>
+          </Container>
+          <TopBar categories={categories.filter((category) => category.products.length > 0)}/>
+          <Container className='mt-10 pb-14'>
+            <div className="flex gap-[80px]">
+              {/*FILTERS*/}
+              <div className="w-[250px]">
+                <Suspense>
+                  <Filters/>
+                </Suspense>
+              </div>
+              {/*PRODUCTS LIST*/}
+              <div className="flex-1">
+                <div className="flex flex-col gap-16">
+                  {
+                    categories.map((category) => (
+                      category.products.length > 0 && (
+                      <ProductGroupList
+                        key={category.id}
+                        title={category.name}
+                        categoryId={category.id}
+                        items={category.products}
+                      />
+                      )
+                    ))
+                  }
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </Container>
-    </>
-  );
+          </Container>
+        </>
+    )
 }

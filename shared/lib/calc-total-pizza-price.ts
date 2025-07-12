@@ -2,16 +2,17 @@ import { Ingredient, ProductItem } from '@prisma/client';
 import { PizzaSize, PizzaType } from '../constants/pizza';
 
 /**
- * Функция для подсчета общей стоимости пиццы
+ * function for calculation of total pizza price
  *
- * @param type - тип теста выбранной пиццы
- * @param size - размер выбранной пиццы
- * @param items - список вариаций
- * @param ingredients - список ингредиентов
- * @param selectedIngredients - выбранные ингредиенты
+ * @param type - dough type
+ * @param size - pizza size
+ * @param items - variants list
+ * @param ingredients - ingredients list
+ * @param selectedIngredients - chosen ingredients
  *
- * @returns number общую стоимость
- */
+ * @returns number total price
+ *
+ **/
 export const calcTotalPizzaPrice = (
   type: PizzaType,
   size: PizzaSize,

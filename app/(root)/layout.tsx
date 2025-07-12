@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Next Pizza | Главная',
+  title: 'Next Pizza | Main',
 };
 
 export default function HomeLayout({
